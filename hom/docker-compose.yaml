@@ -1,0 +1,77 @@
+version: "3.0"
+
+networks:
+  hom-tse:
+
+services:
+
+  mongo-tse:
+    image: mongo:6.0.14
+    container_name: hom-mongo-tse
+    hostname: mongo-tse
+    networks:
+      - hom-tse
+    volumes:
+      - ./mongo.init.js:/docker-entrypoint-initdb.d/mongo.init.js
+    ports :
+        - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+  
+  tse-back-priv:
+    image: ghcr.io/larc-logs-transparentes/tse-back-priv:0.0.1
+    container_name: hom-tse-back-priv
+    hostname: tse-back-priv
+    depends_on:
+      - mongo-tse
+    networks:
+      - hom-tse
+    volumes:
+      - ./backend.private.config.json:/app/src/config.json
+    ports:
+      - 9090:9090
+    
+  tse-back-pub:
+    image: ghcr.io/larc-logs-transparentes/tse-back-pub:0.0.1
+    container_name: hom-tse-back-pub
+    hostname: tse-back-pub
+    depends_on:
+      - tse-back-priv
+      - mongo-tse
+    networks:
+      - hom-tse
+    volumes:
+      - ./backend.public.config.json:/app/src/config.json
+    ports:
+      - 8080:8080
+
+
+  tse-frontend:
+    image: ghcr.io/larc-logs-transparentes/tse-frontend:0.0.1
+    container_name: hom-tse-frontend
+    hostname: tse-frontend
+    depends_on:
+      - tse-back-pub
+    networks:
+      - hom-tse
+    volumes:
+      - ./frontend.config.json:/app/src/config.json
+    ports:
+      - 3000:3000
+
+
+  tlmanager:
+    image: ghcr.io/larc-logs-transparentes/tlmanager:0.0.1
+    container_name: hom-tlmanager
+    hostname: tlmanager
+    depends_on:
+      - tse-back-pub
+      - mongo-tse
+    networks:
+      - hom-tse
+    ports:
+      - 8000:8000
+    environment:
+      URL: "mongodb://tluser:tlpassword@mongo-tse:27017/tlmanager"
+
