@@ -20,7 +20,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: 1234
   
   bu-service:
-    image: ghcr.io/larc-logs-transparentes/bu-service:0.0.1
+    image: ghcr.io/larc-logs-transparentes/bu-service:jk-46
     container_name: hom-logst-bu-service
     hostname: bu-service
     depends_on:
@@ -30,14 +30,14 @@ services:
     ports:
       - 9090:9090
     environment:
-      - MONGO_URL: "mongodb://logsuser:logspassword@mongo-logst"
-      - TL_MANAGER_URL: "http://tlmanager:8000"
-      - TREE_NAME_PREFIX: "eleicao_"
-      - TREE_DEFAULT_COMMITMENT_SIZE: 8
+      MONGO_URL: "mongodb://buuser:bupassword@mongo-logst/bu_service"
+      TL_MANAGER_URL: "http://tlmanager:8000"
+      TREE_NAME_PREFIX: "eleicao_"
+      TREE_DEFAULT_COMMITMENT_SIZE: 8
 
     
   back-pub:
-    image: ghcr.io/larc-logs-transparentes/back-pub:0.0.1
+    image: ghcr.io/larc-logs-transparentes/back-pub:jk-46
     container_name: hom-logst-back-pub
     hostname: back-pub
     depends_on:
@@ -52,7 +52,7 @@ services:
 
 
   frontend:
-    image: ghcr.io/larc-logs-transparentes/frontend:0.0.1
+    image: ghcr.io/larc-logs-transparentes/frontend:jk-46
     container_name: hom-logst-frontend
     hostname: frontend
     depends_on:
@@ -67,7 +67,7 @@ services:
 
 
   tlmanager:
-    image: ghcr.io/larc-logs-transparentes/tlmanager:0.0.1
+    image: ghcr.io/larc-logs-transparentes/tlmanager:jk-46
     container_name: hom-tlmanager
     hostname: tlmanager
     depends_on:

@@ -2,10 +2,10 @@
 
 ## Criação rede dos containers docker
 
-Se a rede Docker ```tse``` ainda não existir, criar por meio do comando:
+Se a rede Docker ```logst``` ainda não existir, criar por meio do comando:
 
 ```bash
-docker network create tse
+docker network create logst
 ```
 
 ## Execução do MongoBD
@@ -17,24 +17,24 @@ Especificar a senha do usuário root no parâmetro **MONGO_INITDB_ROOT_PASSWORD*
 No exemplo a senha é 1234:
 
 ```bash
-docker run -d -p 27017:27017 -v ./config/hom/mongo.init.js:/docker-entrypoint-initdb.d/mongo.init.js -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=1234 --name mongo-tse --hostname mongo-tse --network tse mongo:6.0.14
+docker run -d -p 27017:27017 -v ./config/hom/mongo.init.js:/docker-entrypoint-initdb.d/mongo.init.js -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=1234 --name mongo-logst --hostname mongo-logst --network logst mongo:6.0.14
 ```
 
 
 ## Execução dos containers Docker
 
 ```bash
-docker run -d -p 9090:9090 --network tse --name tse-back-priv -v ./config/hom/backend.private.config.json:/app/src/config.json --hostname tse-back-priv larc-et/tse-back-priv:0.0.1
+docker run -d -p 9090:9090 --network logst --name bu-service -e MONGO_URL="mongodb://buuser:bupassword@mongo-logst/bu_service" -e TL_MANAGER_URL="http://tlmanager:8000" -e TREE_NAME_PREFIX="eleicao_" -e TREE_DEFAULT_COMMITMENT_SIZE=8 --hostname bu-service larc-et/bu-service:0.0.3
 ```
 
 ```bash
-docker run -d -p 8080:8080 --network tse --name tse-back-pub -v ./config/hom/backend.public.config.json:/app/src/config.json --hostname tse-back-pub larc-et/tse-back-pub:0.0.1
+docker run -d -p 8080:8080 --network logst --name back-pub -v ./config/hom/backend.public.config.json:/app/src/config.json --hostname back-pub larc-et/back-pub:0.0.3
 ```
 
 ```bash
-docker run -d -p 3000:3000 --network tse --name tse-frontend -v ./config/hom/frontend.config.json:/app/src/config.json --hostname tse-frontend larc-et/tse-frontend:0.0.1
+docker run -d -p 3000:3000 --network logst --name frontend -v ./config/hom/frontend.config.json:/app/src/config.json --hostname frontend larc-et/frontend:0.0.3
 ```
 
 ```bash
-docker run -d -p 8000:8000 --network tse --name tlmanager -e URL="mongodb://logsuser:logspassword@mongo-tse:27017/logsT" --hostname tlmanager larc-et/tlmanager:0.0.1
+docker run -d -p 8000:8000 --network logst --name tlmanager -e URL="mongodb://tluser:tlpassword@mongo-logst:27017/tlmanager" --hostname tlmanager larc-et/tlmanager:0.0.3
 ```

@@ -4,32 +4,77 @@ node {
     def imgFrontend
     def imgTLManager
 
-    stage('Clonar Repositorio') {
-        git branch: 'main', credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/logs-transparentes.git'
+    stage('Clonar Repositorio logs-transparentes') {
+        git branch: 'feat/bus-ans1', credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/logs-transparentes.git'
     }
     stage('Gerar Imagem BU Service') {
         dir('backend/bu_service'){
-            imgBUService = docker.build("larc-logs-transparentes/bu-service:jk-${env.BUILD_ID}")
+            imgBUService = docker.build("ghcr.io/larc-logs-transparentes/bu-service:jk-${env.BUILD_ID}")
         }
     }
     stage('Gerar Imagem Backend Public') {
         dir('backend/public'){
-            imgBackPub = docker.build("larc-logs-transparentes/back-pub:jk-${env.BUILD_ID}")
+            imgBackPub = docker.build("ghcr.io/larc-logs-transparentes/back-pub:jk-${env.BUILD_ID}")
         }
     }
     stage('Gerar Imagem Frontend') {
         dir('frontend_new'){
-            imgFrontend = docker.build("larc-logs-transparentes/frontend:jk-${env.BUILD_ID}")
+            imgFrontend = docker.build("ghcr.io/larc-logs-transparentes/frontend:jk-${env.BUILD_ID}")
         }
     }
     stage('Gerar Imagem TL Manager') {
         dir('tlmanager'){
-            imgTLManager = docker.build("larc-logs-transparentes/tlmanager:jk-${env.BUILD_ID}")
+            imgTLManager = docker.build("ghcr.io/larc-logs-transparentes/tlmanager:jk-${env.BUILD_ID}")
         }
     }
-    /*stage('Upload Imagem - TL Manager'){
-        docker.withRegistry('https://registry.hub.docker.com','GitHub-Pass'){
-            imgTLManager.push('jk-${env.BUILD_ID}')
+    stage('Clonar Repositório Config'){
+        git branch: 'main', credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/config.git'
+    }
+
+    stage('Executar testes'){
+
+        sh 'docker container rm -f mongo-logst bu-service back-pub tlmanager'
+        sh 'docker network rm -f logst'
+
+        sh 'docker network create logst'
+
+        def mongodb = docker.image('mongo:6.0.14').run('-p 27017:27017 -v ./hom/mongo.init.js:/docker-entrypoint-initdb.d/mongo.init.js -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=1234 --name mongo-logst --hostname mongo-logst --network logst')
+
+        def buservice = imgBUService.run('-p 9090:9090 --network logst --name bu-service -e MONGO_URL="mongodb://buuser:bupassword@mongo-logst/bu_service" -e TL_MANAGER_URL="http://tlmanager:8000" -e TREE_NAME_PREFIX="eleicao_" -e TREE_DEFAULT_COMMITMENT_SIZE=8 --hostname bu-service')
+
+        def backpub = imgBackPub.run('-p 8080:8080 --network logst --name back-pub -v ./hom/backend.public.config.json:/app/src/config.json --hostname back-pub')
+
+        def tlmanager = imgTLManager.run('-p 8000:8000 --network logst --name tlmanager -e URL="mongodb://tluser:tlpassword@mongo-logst:27017/tlmanager" --hostname tlmanager')
+
+        sh 'echo "Aguardando 15s."'
+        sh 'sleep 15'
+
+        dir('hom/tests'){
+            docker.image('node:18.19.1-bullseye').inside('--network host'){
+                sh 'npm install'
+                sh 'node initial.mjs' 
+                sh 'node private.mjs'
+                sh 'node pub-bus.mjs'
+                sh 'node pub-tree.mjs'
+                sh 'node pub-proof.mjs'
+                sh 'node tlmanager.mjs'
+            }
         }
-    }*/
+
+        tlmanager.stop()
+        backpub.stop()
+        buservice.stop()
+        mongodb.stop()
+
+    }
+
+    stage('Upload Imagem - TL Manager'){
+
+        docker.withRegistry('https://ghcr.io', 'GitHub-Token'){
+            imgBUService.push()
+            imgBackPub.push()
+            imgFrontend.push()
+            imgTLManager.push()
+        }
+    }
 }

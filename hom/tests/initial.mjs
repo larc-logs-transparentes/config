@@ -32,4 +32,7 @@ var options = {
 await requestPromise(options, function (error, response) {
     if (error) throw new Error(error);
     console.log(response.body);
+
+    var obj = JSON.parse(response.body);
+    if (obj.status != "ok") throw new Error(`Não veio a resposta esperada: ${obj.status}`);
 });
