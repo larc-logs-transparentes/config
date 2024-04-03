@@ -1,0 +1,14 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "Pacote para testes dos módulos.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Romeo Bulla Junior",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.88.2"
+  }
+}

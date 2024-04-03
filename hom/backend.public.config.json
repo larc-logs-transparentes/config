@@ -12,9 +12,9 @@
         "port": 8000
     },
     "mongodb_config": {
-        "hostname": "mongodb://logsuser:logspassword@mongo-tse",
+        "hostname": "mongodb://buuser:bupassword@mongo-logst",
         "port": 27017,
-        "database": "logsT"
+        "database": "bu_service"
     },
     "application_config": {
         "port": 8080

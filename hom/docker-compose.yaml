@@ -1,16 +1,16 @@
 version: "3.0"
 
 networks:
-  hom-tse:
+  hom-logst:
 
 services:
 
-  mongo-tse:
+  mongo-logst:
     image: mongo:6.0.14
-    container_name: hom-mongo-tse
-    hostname: mongo-tse
+    container_name: hom-mongo-logst
+    hostname: mongo-logst
     networks:
-      - hom-tse
+      - hom-logst
     volumes:
       - ./mongo.init.js:/docker-entrypoint-initdb.d/mongo.init.js
     ports :
@@ -19,42 +19,47 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 1234
   
-  tse-back-priv:
-    image: ghcr.io/larc-logs-transparentes/tse-back-priv:0.0.1
-    container_name: hom-tse-back-priv
-    hostname: tse-back-priv
+  bu-service:
+    image: ghcr.io/larc-logs-transparentes/bu-service:0.0.1
+    container_name: hom-logst-bu-service
+    hostname: bu-service
     depends_on:
-      - mongo-tse
+      - mongo-logst
     networks:
-      - hom-tse
-    volumes:
-      - ./backend.private.config.json:/app/src/config.json
+      - hom-logst
     ports:
       - 9090:9090
+    environment:
+      - MONGO_URL: "mongodb://logsuser:logspassword@mongo-logst"
+      - TL_MANAGER_URL: "http://tlmanager:8000"
+      - TREE_NAME_PREFIX: "eleicao_"
+      - TREE_DEFAULT_COMMITMENT_SIZE: 8
+
     
-  tse-back-pub:
-    image: ghcr.io/larc-logs-transparentes/tse-back-pub:0.0.1
-    container_name: hom-tse-back-pub
-    hostname: tse-back-pub
+  back-pub:
+    image: ghcr.io/larc-logs-transparentes/back-pub:0.0.1
+    container_name: hom-logst-back-pub
+    hostname: back-pub
     depends_on:
-      - tse-back-priv
-      - mongo-tse
+      - bu-service
+      - mongo-logst
     networks:
-      - hom-tse
+      - hom-logst
     volumes:
       - ./backend.public.config.json:/app/src/config.json
     ports:
       - 8080:8080
 
 
-  tse-frontend:
-    image: ghcr.io/larc-logs-transparentes/tse-frontend:0.0.1
-    container_name: hom-tse-frontend
-    hostname: tse-frontend
+  frontend:
+    image: ghcr.io/larc-logs-transparentes/frontend:0.0.1
+    container_name: hom-logst-frontend
+    hostname: frontend
     depends_on:
-      - tse-back-pub
+      - back-pub
+      - bu-service
     networks:
-      - hom-tse
+      - hom-logst
     volumes:
       - ./frontend.config.json:/app/src/config.json
     ports:
@@ -66,12 +71,12 @@ services:
     container_name: hom-tlmanager
     hostname: tlmanager
     depends_on:
-      - tse-back-pub
-      - mongo-tse
+      - back-pub
+      - mongo-logst
     networks:
-      - hom-tse
+      - hom-logst
     ports:
       - 8000:8000
     environment:
-      URL: "mongodb://tluser:tlpassword@mongo-tse:27017/tlmanager"
+      URL: "mongodb://tluser:tlpassword@mongo-logst:27017/tlmanager"
 

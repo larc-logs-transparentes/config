@@ -15,21 +15,21 @@ Para esse caso, há arquivos separados para cada ambiente.
 ## Geração das imagens Docker
 
 
-Sob a pasta backend/private:
-```bash
-docker build -t larc-et/tse-back-priv:0.0.1 .
-```
 Sob a pasta backend/public:
 ```bash
-docker build -t larc-et/tse-back-pub:0.0.1 .
+docker build -t larc-et/back-pub:0.0.3 .
+```
+Sob a pasta backend/bu_service:
+```bash
+docker build -t larc-et/bu-service:0.0.3 .
 ```
 Sob a pasta frontend_new:
 ```bash
-docker build -t larc-et/tse-frontend:0.0.1 .
+docker build -t larc-et/frontend:0.0.3 .
 ```
 Sob a pasta tlmanager:
 ```bash
-docker build -t larc-et/tlmanager:0.0.1 .
+docker build -t larc-et/tlmanager:0.0.3 .
 ```
 
 ## Execução dos containers Docker

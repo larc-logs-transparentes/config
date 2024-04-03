@@ -12,6 +12,6 @@ Realização do login:
 
 ```bash
 export GITHUB_TOKEN="<COLOQUE AQUI O SEU TOKEN>"
-echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+echo $GITHUB_TOKEN | docker login ghcr.io -u <SEU_USERNAME> --password-stdin
 ``` 
 

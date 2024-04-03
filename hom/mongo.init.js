@@ -1,10 +1,10 @@
-dblogst = connect( 'mongodb://localhost/logsT' );
+dbbuservice = connect( 'mongodb://localhost/bu_service' );
 
-dblogst.createUser(
+dbbuservice.createUser(
   {
-    user: "logsuser",
-    pwd: "logspassword", 
-    roles: [ { role: "readWrite", db: "logsT" }]
+    user: "buuser",
+    pwd: "bupassword", 
+    roles: [ { role: "readWrite", db: "bu_service" }]
   }
 );
 
