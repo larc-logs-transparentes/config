@@ -5,7 +5,7 @@ node {
     def imgTLManager
 
     stage('Clonar Repositorio logs-transparentes') {
-        git branch: 'feat/bus-ans1', credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/logs-transparentes.git'
+        git branch: 'main', credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/logs-transparentes.git'
     }
     stage('Gerar Imagem BU Service') {
         dir('backend/bu_service'){
@@ -50,14 +50,13 @@ node {
         sh 'sleep 15'
 
         dir('hom/tests'){
-            docker.image('node:18.19.1-bullseye').inside('--network host'){
-                sh 'npm install'
-                sh 'node initial.mjs' 
-                sh 'node private.mjs'
-                sh 'node pub-bus.mjs'
-                sh 'node pub-tree.mjs'
-                sh 'node pub-proof.mjs'
-                sh 'node tlmanager.mjs'
+            docker.image('python:3.12.2-bullseye').inside('--network host'){
+                sh 'pip install --no-cache-dir -r requirements.txt'
+                sh 'python initial.py' 
+                sh 'python pub-private.py'
+                sh 'python pub-bus.py'
+                sh 'python pub-proof.py'
+                sh 'python pub-tree.py'
             }
         }
 
@@ -68,7 +67,7 @@ node {
 
     }
 
-    stage('Upload Imagem - TL Manager'){
+    stage('Upload Imagens'){
 
         docker.withRegistry('https://ghcr.io', 'GitHub-Token'){
             imgBUService.push()
