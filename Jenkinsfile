@@ -71,8 +71,8 @@ node {
 
     stage('Upload Imagens'){
         withCredentials([gitUsernamePassword(credentialsId: 'GitHub-Token', gitToolName: 'Default')]) {
-            sh "git tag jk-${env.BUILD_ID}"
-            sh "git push origin jk-${env.BUILD_ID}"
+            sh "git tag config-jk-${env.BUILD_ID}"
+            sh "git push origin config-jk-${env.BUILD_ID}"
         }
 
         git branch: "main", credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/logs-transparentes.git'
