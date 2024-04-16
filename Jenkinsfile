@@ -1,4 +1,5 @@
 node {
+    def commitHash
     def imgBUService
     def imgBackPub
     def imgFrontend
@@ -7,6 +8,7 @@ node {
 
     stage('Clonar Repositorio logs-transparentes') {
         git branch: 'main', credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/logs-transparentes.git'
+        commitHash = sh(script: 'git rev-parse HEAD', returnStdout: true)
     }
     stage('Gerar Imagem BU Service') {
         dir('backend/bu_service'){
@@ -68,6 +70,18 @@ node {
     }
 
     stage('Upload Imagens'){
+        withCredentials([gitUsernamePassword(credentialsId: 'GitHub-Token', gitToolName: 'Default')]) {
+            sh "git tag jk-${env.BUILD_ID}"
+            sh "git push origin jk-${env.BUILD_ID}"
+        }
+
+        git branch: "main", credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/logs-transparentes.git'
+
+        withCredentials([gitUsernamePassword(credentialsId: 'GitHub-Token', gitToolName: 'Default')]) {
+            sh "git checkout ${commitHash}"
+            sh "git tag jk-${env.BUILD_ID}"
+            sh "git push origin jk-${env.BUILD_ID}"
+        }
 
         docker.withRegistry('https://ghcr.io', 'GitHub-Token'){
             imgBUService.push()
