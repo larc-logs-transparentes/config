@@ -29,7 +29,7 @@ node {
         }
     }
     stage('Clonar Repositório Config'){
-        git branch: 'testes-python', credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/config.git'
+        git branch: 'main', credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/config.git'
     }
 
     stage('Executar testes'){
