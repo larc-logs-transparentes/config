@@ -15,22 +15,29 @@ Para esse caso, há arquivos separados para cada ambiente.
 ## Geração das imagens Docker
 
 
-Sob a pasta backend/public:
+Sob a pasta ``backend/public``:
 ```bash
 docker build -t larc-et/back-pub:0.0.3 .
 ```
-Sob a pasta backend/bu_service:
+Sob a pasta ``backend/bu_service``:
 ```bash
 docker build -t larc-et/bu-service:0.0.3 .
 ```
-Sob a pasta frontend_new:
+Sob a pasta ``frontend_new``:
 ```bash
 docker build -t larc-et/frontend:0.0.3 .
 ```
-Sob a pasta tlmanager:
+Sob a pasta ``tlmanager``:
 ```bash
 docker build -t larc-et/tlmanager:0.0.3 .
 ```
+
+Docker de testes (projeto config):
+So a pasta ``config/hom/tests``
+```bash
+docker build -t larc-et/tests:0.0.3 .
+```
+
 
 ## Execução dos containers Docker
 

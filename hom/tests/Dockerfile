@@ -8,4 +8,6 @@ COPY *.bu /app/
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD [ "pytest" ]
+# Linha comentada para que o comando seja chamado pelo script do Jenkins
+# Deste modo o output aparece nos logs do Jenkins
+#CMD [ "pytest" ]

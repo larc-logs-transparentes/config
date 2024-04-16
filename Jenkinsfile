@@ -3,6 +3,7 @@ node {
     def imgBackPub
     def imgFrontend
     def imgTLManager
+    def imgTests
 
     stage('Clonar Repositorio logs-transparentes') {
         git branch: 'main', credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/logs-transparentes.git'
@@ -28,7 +29,7 @@ node {
         }
     }
     stage('Clonar Repositório Config'){
-        git branch: 'main', credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/config.git'
+        git branch: 'testes-python', credentialsId: 'GitHub-Pass', url: 'https://github.com/larc-logs-transparentes/config.git'
     }
 
     stage('Executar testes'){
@@ -46,17 +47,16 @@ node {
 
         def tlmanager = imgTLManager.run('-p 8000:8000 --network logst --name tlmanager -e URL="mongodb://tluser:tlpassword@mongo-logst:27017/tlmanager" --hostname tlmanager')
 
-        sh 'echo "Aguardando 15s."'
-        sh 'sleep 15'
+
 
         dir('hom/tests'){
-            docker.image('python:3.12.2-bullseye').inside('--network host'){
-                sh 'pip install --no-cache-dir -r requirements.txt'
-                sh 'python initial.py' 
-                sh 'python pub-private.py'
-                sh 'python pub-bus.py'
-                sh 'python pub-proof.py'
-                sh 'python pub-tree.py'
+            imgTests = docker.build("ghcr.io/larc-logs-transparentes/tests:jk-${env.BUILD_ID}")
+
+            sh 'echo "Aguardando 8s."'
+            sh 'sleep 8'
+
+            imgTests.inside('--network logst'){
+                sh 'pytest'
             }
         }
 
