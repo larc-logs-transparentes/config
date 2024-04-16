@@ -2,7 +2,7 @@ import requests
 from auxiliary import processar_response
 
 def test_tree():
-    url = "http://127.0.0.1:8080/tree?tree_name=global_tree"
+    url = "http://12   7.0.0.1:8080/tree?tree_name=global_tree"
 
     payload = {}
     headers = {}
