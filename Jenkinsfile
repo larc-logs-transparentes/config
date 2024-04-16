@@ -55,7 +55,7 @@ node {
             sh 'echo "Aguardando 8s."'
             sh 'sleep 8'
 
-            imgTests.inside('--network logst'){
+            imgTests.inside('--network host'){
                 sh 'pytest'
             }
         }
