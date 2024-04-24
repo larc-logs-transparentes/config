@@ -1,8 +1,5 @@
 version: "3.0"
 
-env:
-  IMAGE_TAG: ykes
-
 networks:
   hom-logst:
 
@@ -23,7 +20,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: 1234
   
   bu-service:
-    image: ghcr.io/larc-logs-transparentes/bu-service:${{IMAGE_TAG}}
+    image: ghcr.io/larc-logs-transparentes/bu-service:latest
     container_name: hom-logst-bu-service
     hostname: bu-service
     depends_on:
@@ -40,7 +37,7 @@ services:
 
     
   back-pub:
-    image: ghcr.io/larc-logs-transparentes/back-pub:${{IMAGE_TAG}}
+    image: ghcr.io/larc-logs-transparentes/back-pub:latest
     container_name: hom-logst-back-pub
     hostname: back-pub
     depends_on:
@@ -55,7 +52,7 @@ services:
 
 
   frontend:
-    image: ghcr.io/larc-logs-transparentes/frontend:${{IMAGE_TAG}}
+    image: ghcr.io/larc-logs-transparentes/frontend:latest
     container_name: hom-logst-frontend
     hostname: frontend
     depends_on:
@@ -70,7 +67,7 @@ services:
 
 
   tlmanager:
-    image: ghcr.io/larc-logs-transparentes/tlmanager:${{IMAGE_TAG}}
+    image: ghcr.io/larc-logs-transparentes/tlmanager:latest
     container_name: hom-tlmanager
     hostname: tlmanager
     depends_on:
