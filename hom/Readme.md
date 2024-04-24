@@ -38,3 +38,17 @@ docker run -d -p 3000:3000 --network logst --name frontend -v ./config/hom/front
 ```bash
 docker run -d -p 8000:8000 --network logst --name tlmanager -e URL="mongodb://tluser:tlpassword@mongo-logst:27017/tlmanager" --hostname tlmanager larc-et/tlmanager:0.0.3
 ```
+
+# Execução de testes
+
+Para a realização de testes, é possível criar uma imagem que contém os procedimentos de testes.
+
+Atualmente, os testes requerem uma instância vazia do Mongo. Deste modo, apontar para um Mongo de testes.
+
+Geração da imagem de testes:
+
+- Acessar a pasta ``config/hom/tests``
+
+```bash
+    docker build -t 
+```
