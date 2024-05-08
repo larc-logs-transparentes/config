@@ -17,6 +17,8 @@ Ume vez que a configuração permaneça a mesma:
 - Endereços dos serviços
 - Par de chaves do TL Manager
 
+Nota: para uma execução simplificada (apenas para validação), pos ser utilizado o procedimento da seção [Execução Simplificada](#execução-simplificada).
+
 Não será necessário realizar a configuração uma vez que ela esteja ok.
 
 Passos de configuração:
@@ -100,3 +102,12 @@ Caso se deseje iniciar uma instância do MongoDB separadamente, ela pode ser ini
         -e MONGO_INITDB_ROOT_PASSWORD=1234 \
         mongo:6.0.14
     ```
+
+## Execução Simplificada
+
+Caso se deseje realizar uma execução simplificada, utilizando o MongoDB criado na seção anterior ["(Criação de MongoDB)"](#criação-de-mongodb) e executando o sistema em localhost, é possível apenas copiar os arquivos ``exmaple/.env`` e ``example/backend.public.config.json`` para a pasta ``prod`` por meio do comando na pasta ``config/prod``:
+
+```bash
+cp example/.env .
+cp example/backend.public.config.json .
+```
