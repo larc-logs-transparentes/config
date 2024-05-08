@@ -14,6 +14,7 @@ Para subir uma instância do MongoDB inicial, pode ser utilizado o procedimento 
 
 Ume vez que a configuração permaneça a mesma:
 - Geometria e endereço do MongoDB;
+- Endereços dos serviços
 - Par de chaves do TL Manager
 
 Não será necessário realizar a configuração uma vez que ela esteja ok.
