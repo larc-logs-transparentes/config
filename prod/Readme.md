@@ -48,7 +48,11 @@ Passos de configuração:
     TL_MANAGER_PUB_KEY_PATH=/path/completo/para/chavepublica.pem
     TL_MANAGER_PRIV_KEY_PATH=/path/completo/para/chaveprivada.pem
     ```
+5) Editar o arquivo ``.env`` e editar a linha que contém os endereços do TL Manager:
 
+    ```bash
+    TL_MANAGER_URL=http://localhost:8000
+    ```
 
 ## Execução
 
