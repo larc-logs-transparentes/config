@@ -4,7 +4,8 @@
 
 Algumas premissas antes dos procedimentos:
 
-1) A pré-existência de um database Mongo DB, com pares de usuários e senhas para as collections: **bu_service** e **tlmanager**
+1) A pré-existência de um database Mongo DB, com pares de usuários e senhas para as collections: **bu_service** e **tlmanager**.
+Para subir uma instância do MongoDB inicial, pode ser utilizado o procedimento extra [Criação de MongoDB](#criação-de-mongodb) Em Configurações Opcionais.
 
 2) A pré-existência de um par de chave pública e privada (no formato PKCS8) acessíveis no filesystem para uso do microserviço **TLManager**
 
@@ -74,4 +75,23 @@ Certificar-se de que:
 
     ```bash
     docker compose down
+    ```
+
+# Configurações Opcionais
+
+## Criação de MongoDB
+
+Caso se deseje iniciar uma instância do MongoDB separadamente, ela pode ser iniciada com os procedimentos a seguir:
+
+1) Acessar a pasta ``config/prod``
+
+2) Executar:
+
+    ```bash
+    docker run -d -p 27017:27017 \
+        --name mongo-logst --hostname mongo-logst \
+        -v ./../hom/mongo.init.js:/docker-entrypoint-initdb.d/mongo.init.js \
+        -e MONGO_INITDB_ROOT_USERNAME=root \
+        -e MONGO_INITDB_ROOT_PASSWORD=1234 \
+        mongo:6.0.14
     ```

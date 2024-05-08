@@ -1,21 +1,15 @@
 version: "3.0"
 
-networks:
-  hom-logst:
-
 services:
 
   bu-service:
     image: ghcr.io/larc-logs-transparentes/bu-service:latest
     container_name: hom-logst-bu-service
     hostname: bu-service
-    networks:
-      - hom-logst
-    ports:
-      - 9090:9090
+    network_mode: "host"
     environment:
       MONGO_URL: "${BU_SERVICE_MONGO_URL}"
-      TL_MANAGER_URL: "http://tlmanager:8000"
+      TL_MANAGER_URL: "${TL_MANAGER_URL}"
       TREE_NAME_PREFIX: "eleicao_"
       TREE_DEFAULT_COMMITMENT_SIZE: 8
 
@@ -26,12 +20,9 @@ services:
     hostname: back-pub
     depends_on:
       - bu-service
-    networks:
-      - hom-logst
+    network_mode: "host"
     volumes:
       - ./backend.public.config.json:/app/src/config.json
-    ports:
-      - 8080:8080
 
 
   frontend:
@@ -41,12 +32,9 @@ services:
     depends_on:
       - back-pub
       - bu-service
-    networks:
-      - hom-logst
+    network_mode: "host"
     volumes:
       - ./frontend.config.json:/app/src/config.json
-    ports:
-      - 3000:3000
 
 
   tlmanager:
@@ -55,10 +43,7 @@ services:
     hostname: tlmanager
     depends_on:
       - back-pub
-    networks:
-      - hom-logst
-    ports:
-      - 8000:8000
+    network_mode: "host"
     volumes:
       - ${TL_MANAGER_PUB_KEY_PATH}:/app/keys/public_key.pem
       - ${TL_MANAGER_PRIV_KEY_PATH}:/app/keys/private_key.pem
