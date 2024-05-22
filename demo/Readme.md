@@ -1,1 +1,28 @@
-.
+# Configurações para subir ambinete de demonstração
+
+## Iniciar - Passos
+
+1) Acessar a pasta ``config/demo``
+
+2) Executar o comando:
+
+    ```bash
+    docker compose up
+    ```
+
+3) Após o sistema subir, executar:
+
+    ```bash
+    docker run --rm --network host larc/bu-utils:latest
+    ```
+
+
+## Finalizar - Passos
+
+1) Acessar a pasta ``config/demo``
+
+2) Executar o comando:
+
+    ```bash
+    docker compose down
+    ```

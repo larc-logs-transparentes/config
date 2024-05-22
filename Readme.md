@@ -6,6 +6,7 @@ Esse Readme contém informações para a criação e execução de containers Do
 
 Os passos para a geração das imagens é o mesmo para qualquer configuração de ambiente:
 - ```dev``` aka desenvolvimento;
+- ```demo``` aka demonstração;
 -  ```hom``` aka homologação ou sala-limpa; ou
 -  ```prod``` aka ambiente de produção.
 
@@ -43,6 +44,8 @@ docker build -t larc-et/tests:0.0.3 .
 ## Execução dos containers Docker
 
 Para o ambiente de homologação (ou sala-limpa), veja o arquivo [```hom/Readme.md```](./hom/Readme.md).
+
+Para o ambiente de demonstração (ou demo), veja o arquivo [```demo/Readme.md```](./demo/Readme.md).
 
 Para o ambiente de desenvolvimento (ou dev), veja o arquivo [```dev/Readme.md```](./dev/Readme.md).
 
