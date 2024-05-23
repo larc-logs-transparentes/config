@@ -13,7 +13,7 @@
 3) Após o sistema subir, executar:
 
     ```bash
-    docker run --rm --network host larc/bu-utils:latest
+    docker run --rm --network host ghcr.io/larc-logs-transparentes/bu-utils:latest
     ```
 
 
