@@ -1,7 +1,7 @@
 import requests
 from auxiliary import processar_response
 
-def test_tree():
+def test_tree(my_setup):
     url = "http://127.0.0.1:8080/tree?tree_name=global_tree"
 
     payload = {}
@@ -12,7 +12,7 @@ def test_tree():
     assert result.status == "ok"
 
 
-def test_tree_root():
+def test_tree_root(my_setup):
     url = "http://127.0.0.1:8080/tree/tree-root?tree_name=global_tree"
 
     payload = {}
@@ -23,7 +23,7 @@ def test_tree_root():
     assert result.status == "ok"
 
 
-def test_all_roots_global_tree():
+def test_all_roots_global_tree(my_setup):
     url = "http://127.0.0.1:8080/tree/all-roots-global-tree"
 
     payload = {}
@@ -34,7 +34,7 @@ def test_all_roots_global_tree():
     assert result.status == "ok"
 
 
-def test_all_leaf_data_global_tree():
+def test_all_leaf_data_global_tree(my_setup):
     url = "http://127.0.0.1:8080/tree/all-leaf-data-global-tree"
 
     payload = {}
