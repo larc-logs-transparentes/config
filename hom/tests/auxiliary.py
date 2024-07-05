@@ -3,30 +3,42 @@ from types import SimpleNamespace
 
 
 class BUData:
-    uf = ''
-    zona = ''
-    secao = ''
+    turno:int = -1
+    uf:str = ''
+    zona:int = -1
+    secao:int = -1
+    eleicoes:list = []
     id = ''
     meta = {}
 
-    def __init__(self, uf, zona, secao):
+    def __init__(self, turno:int, uf:str, zona:int, secao:int, eleicoes:list):
+        self.turno = turno
         self.uf = uf
         self.zona = zona
         self.secao = secao
+        self.eleicoes = eleicoes
 
 
-bu_list = [BUData("SP", 118, 1),
-           BUData("SP", 118, 2),
-           BUData("AM", 1, 616),
-           BUData("AM", 1, 640),
-           BUData("AM", 1, 641),
-           BUData("AM", 1, 642),
-           BUData("RS", 1, 1),
-           BUData("RS", 1, 2),
-           BUData("PB", 1, 1),
-           BUData("PB", 1, 3),
-           BUData("MT", 39, 364),
-           BUData("MT", 39, 368),
+bu_list = [ # 1o turno
+            BUData(1, "SP", 118, 1, [544, 546]),
+            BUData(1, "SP", 118, 2, [544, 546]),
+            BUData(1, "AM", 1, 616, [544, 546]),
+            BUData(1, "AM", 1, 640, [544, 546]),
+            BUData(1, "AM", 1, 641, [544, 546]),
+            BUData(1, "AM", 1, 642, [544, 546]),
+            BUData(1, "RS", 1, 1, [544, 546]),
+            BUData(1, "RS", 1, 2, [544, 546]),
+            BUData(1, "PB", 1, 1, [544, 546]),
+            BUData(1, "PB", 1, 3, [544, 546]),
+            # 2o turno
+            BUData(2, "SP", 118, 1, [545, 547]),
+            BUData(2, "SP", 118, 2, [545, 547]),
+            BUData(2, "AM", 1, 616, [545, 547]),
+            BUData(2, "AM", 1, 640, [545, 547]),
+            BUData(2, "AM", 1, 641, [545, 547]),
+            BUData(2, "AM", 1, 642, [545, 547]),
+            BUData(2, "MT", 39, 364, [545]),
+            BUData(2, "MT", 39, 368, [545]),
           ]
 
 

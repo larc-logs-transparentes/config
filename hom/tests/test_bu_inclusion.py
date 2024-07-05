@@ -9,11 +9,13 @@ def test_bu_inclusion(my_setup):
     global_root = get_global_root()
 
     for bu_data in bu_list:
-        load_bu_id(bu_data)
-        bu_binary = base64.b64decode(bu_data.meta.bu.encode('ascii'))
 
-        for eleicao_name in bu_data.meta.merkletree_info.__dict__:
-            eleicao = bu_data.meta.merkletree_info.__dict__[eleicao_name]
+        for eleicao in bu_data.eleicoes:
+
+            load_bu_id(bu_data, eleicao)
+            bu_binary = base64.b64decode(bu_data.meta.bu.encode('ascii'))
+
+            eleicao = bu_data.meta.merkletree_info.__dict__[str(eleicao)]
             print(f"\nEleição: {eleicao.tree_name} - index: {eleicao.index}")
 
 
@@ -24,8 +26,8 @@ def test_bu_inclusion(my_setup):
             assert result["success"] == True
 
 
-def load_bu_id(bu_data:BUData):
-    url = f"http://localhost:8080/bu/find_by_info?UF={bu_data.uf}&zona={bu_data.zona}&secao={bu_data.secao}"
+def load_bu_id(bu_data:BUData, eleicao):
+    url = f"http://localhost:8080/bu/find_by_info?UF={bu_data.uf}&zona={bu_data.zona}&secao={bu_data.secao}&id_eleicao={eleicao}"
 
     payload = {}
     headers = {}
