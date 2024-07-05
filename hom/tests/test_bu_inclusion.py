@@ -18,7 +18,6 @@ def test_bu_inclusion(my_setup):
             eleicao = bu_data.meta.merkletree_info.__dict__[str(eleicao)]
             print(f"\nEleição: {eleicao.tree_name} - index: {eleicao.index}")
 
-
             data_proof = get_tree_data_proof_dict(eleicao.tree_name, eleicao.index)
             # verify integrity of bu
             result = tlverifier.verify_data_entry(data_proof, global_root.value, bu_binary)
