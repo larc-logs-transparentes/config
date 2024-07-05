@@ -7,8 +7,8 @@ from auxiliary import processar_response
 @pytest.fixture(scope="session")
 def my_setup(request):
     print ("Inicializando os testes.")
-    test_bu_create()
-    test_commit_all_trees()
+    bu_create_all()
+    commit_all_trees()
 
     def fin():
         print ("Finalizando os testes.")
@@ -33,7 +33,7 @@ def bu_create(bu_name:str, folder:str):
   assert result.status == "ok"
 
 
-def test_bu_create():
+def bu_create_all():
   folder:str = 'bus'
   bu_array = glob.glob("*.bu", root_dir=folder)
 
@@ -41,7 +41,7 @@ def test_bu_create():
     bu_create(bu, folder)
 
 
-def test_commit_all_trees():
+def commit_all_trees():
   url = "http://127.0.0.1:9090/tree/commit-all-trees"
 
   payload = {}
