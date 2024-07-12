@@ -1,11 +1,11 @@
 {
     "cors_origin_urls": [
-        "http://localhost:3000",
-        "http://172.20.11.11:3000",
-        "http://172.20.11.14:3000", 
-        "http://127.0.0.1:3000",
-        "http://ts-logt.larc2.usp:3000", 
-        "http://ts-logt-reais.larc2.usp:3000"
+        "http://localhost:80",
+        "http://172.20.11.11:80",
+        "http://172.20.11.14:80", 
+        "http://127.0.0.1:80",
+        "http://ts-logt.larc2.usp:80", 
+        "http://ts-logt-reais.larc2.usp:80"
     ],
     "tlmanager_config": {
         "hostname": "http://localhost",

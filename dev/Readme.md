@@ -65,5 +65,5 @@ docker run -d --network host --name dev-tlmanager larc-et/tlmanager:local
 
 ## Execução dos container frontend de modo a poder programa-los Docker (só os containers que forem de interesse)
 ```bash
-docker run -p 3000:3000 --network hom-logst -v ./src:/app/src --name dev-frontend larc-et/frontend:0.0.3
+docker run -p 3000:80 --network hom-logst -v ./src:/app/src --name dev-frontend larc-et/frontend:0.0.3
 ```

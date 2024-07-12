@@ -60,8 +60,9 @@ Passos de configuração:
 
 Certificar-se de que:
 - não existam containers em execução e; 
-- as portas **8000**, **3000**, **8080** e **9000** estejam disponíveis para uso na máquina.
+- as portas **8000**, **80**, **8080** e **9000** estejam disponíveis para uso na máquina.
 
+- Nessa versão (**prod**) o frontend estará disponível na porta **80** (e não 3000).
 
 ### Comando para executar os containers (docker compose)
 

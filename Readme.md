@@ -7,8 +7,8 @@ Esse Readme contém informações para a criação e execução de containers Do
 Os passos para a geração das imagens é o mesmo para qualquer configuração de ambiente:
 - ```dev``` aka desenvolvimento;
 - ```demo``` aka demonstração;
--  ```hom``` aka homologação ou sala-limpa; ou
--  ```prod``` aka ambiente de produção.
+- ```hom``` aka homologação ou sala-limpa; ou
+- ```prod``` aka ambiente de produção.
 
 Já os passos para a execução de containers são deferentes dependendo do ambiente.
 Para esse caso, há arquivos separados para cada ambiente.
@@ -19,19 +19,19 @@ Para esse caso, há arquivos separados para cada ambiente.
 
 Sob a pasta ``backend/public``:
 ```bash
-docker build -t larc-et/back-pub:0.0.3 .
+docker build -t larc-et/back-pub:local .
 ```
 Sob a pasta ``backend/bu_service``:
 ```bash
-docker build -t larc-et/bu-service:0.0.3 .
+docker build -t larc-et/bu-service:local .
 ```
 Sob a pasta ``frontend_new``:
 ```bash
-docker build -t larc-et/frontend:0.0.3 .
+docker build -t larc-et/frontend:local .
 ```
 Sob a pasta ``tlmanager``:
 ```bash
-docker build -t larc-et/tlmanager:0.0.3 .
+docker build -t larc-et/tlmanager:local .
 ```
 
 Docker de testes (projeto config):

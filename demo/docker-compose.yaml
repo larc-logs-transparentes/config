@@ -60,10 +60,8 @@ services:
       - tlmanager
     networks:
       - demo-logst
-    volumes:
-      - ./frontend.config.json:/app/src/config.json
     ports:
-      - 3000:3000
+      - 3000:80
 
 
   tlmanager:

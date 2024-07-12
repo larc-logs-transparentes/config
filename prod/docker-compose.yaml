@@ -43,13 +43,9 @@ services:
     hostname: tlmanager
     depends_on:
       - back-pub
-    # network_mode: "host"
+    network_mode: "host"
     volumes:
       - ${TL_MANAGER_PUB_KEY_PATH}:/app/keys/public_key.pem
       - ${TL_MANAGER_PRIV_KEY_PATH}:/app/keys/private_key.pem
     environment:
       URL: "${TL_MANAGER_MONGO_URL}"
-    ports:
-      - 3000:80
-
-
