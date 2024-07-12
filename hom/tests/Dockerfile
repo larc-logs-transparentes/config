@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY *.py /app/
 COPY requirements.txt /app/
-COPY *.bu /app/
+COPY bus /app/bus
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
