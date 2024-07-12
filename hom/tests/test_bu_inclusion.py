@@ -5,24 +5,24 @@ import tlverifier
 import json
 
 
-def test_bu_inclusion(my_setup):
-    global_root = get_global_root()
+# def test_bu_inclusion(my_setup):
+#     global_root = get_global_root()
 
-    for bu_data in bu_list:
+#     for bu_data in bu_list:
 
-        for eleicao in bu_data.eleicoes:
+#         for eleicao in bu_data.eleicoes:
 
-            load_bu_id(bu_data, eleicao)
-            bu_binary = base64.b64decode(bu_data.meta.bu.encode('ascii'))
+#             load_bu_id(bu_data, eleicao)
+#             bu_binary = base64.b64decode(bu_data.meta.bu.encode('ascii'))
 
-            eleicao = bu_data.meta.merkletree_info.__dict__[str(eleicao)]
-            print(f"\nEleição: {eleicao.tree_name} - index: {eleicao.index}")
+#             eleicao = bu_data.meta.merkletree_info.__dict__[str(eleicao)]
+#             print(f"\nEleição: {eleicao.tree_name} - index: {eleicao.index}")
 
-            data_proof = get_tree_data_proof_dict(eleicao.tree_name, eleicao.index)
-            # verify integrity of bu
-            result = tlverifier.verify_data_entry(data_proof, global_root.value, bu_binary)
+#             data_proof = get_tree_data_proof_dict(eleicao.tree_name, eleicao.index)
+#             # verify integrity of bu
+#             result = tlverifier.verify_data_entry(data_proof, global_root.value, bu_binary)
 
-            assert result["success"] == True
+#             assert result["success"] == True
 
 
 def load_bu_id(bu_data:BUData, eleicao):

@@ -57,13 +57,11 @@ services:
     hostname: frontend
     depends_on:
       - back-pub
-      - bu-service
+      - tlmanager
     networks:
       - dev-logst
-    volumes:
-      - ../hom/frontend.config.json:/app/src/config.json
     ports:
-      - 3000:3000
+      - 3000:80
 
 
   tlmanager:
