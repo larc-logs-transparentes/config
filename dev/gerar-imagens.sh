@@ -1,6 +1,9 @@
 #!/bin/bash
 
-cd ../../logs-transparentes/backend/bu_service
+cd ../hom/tests
+docker build -t larc-et/tests:local .
+
+cd ../../../logs-transparentes/backend/bu_service
 docker build -t larc-et/bu-service:local .
 
 cd ../public

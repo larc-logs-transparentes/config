@@ -6,6 +6,7 @@ services:
     image: ghcr.io/larc-logs-transparentes/bu-service:latest
     container_name: hom-logst-bu-service
     hostname: bu-service
+    pull_policy: always
     network_mode: "host"
     environment:
       MONGO_URL: "${BU_SERVICE_MONGO_URL}"
@@ -18,8 +19,10 @@ services:
     image: ghcr.io/larc-logs-transparentes/back-pub:latest
     container_name: hom-logst-back-pub
     hostname: back-pub
+    pull_policy: always
     depends_on:
       - bu-service
+      - tlmanager
     network_mode: "host"
     volumes:
       - ./backend.public.config.json:/app/src/config.json
@@ -29,9 +32,9 @@ services:
     image: ghcr.io/larc-logs-transparentes/frontend:latest
     container_name: hom-logst-frontend
     hostname: frontend
+    pull_policy: always
     depends_on:
       - back-pub
-      - tlmanager
     network_mode: "host"
     volumes:
       - ./frontend.config.json:/app/src/config.json
@@ -41,8 +44,7 @@ services:
     image: ghcr.io/larc-logs-transparentes/tlmanager:latest
     container_name: hom-tlmanager
     hostname: tlmanager
-    depends_on:
-      - back-pub
+    pull_policy: always
     network_mode: "host"
     volumes:
       - ${TL_MANAGER_PUB_KEY_PATH}:/app/keys/public_key.pem

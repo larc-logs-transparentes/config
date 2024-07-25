@@ -42,6 +42,7 @@ services:
     hostname: back-pub
     depends_on:
       - bu-service
+      - tlmanager
       - mongo-logst
     networks:
       - demo-logst
@@ -57,7 +58,6 @@ services:
     hostname: frontend
     depends_on:
       - back-pub
-      - tlmanager
     networks:
       - demo-logst
     ports:
@@ -69,7 +69,6 @@ services:
     container_name: demo-tlmanager
     hostname: tlmanager
     depends_on:
-      - back-pub
       - mongo-logst
     networks:
       - demo-logst
