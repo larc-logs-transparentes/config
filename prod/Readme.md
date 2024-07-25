@@ -71,7 +71,7 @@ Certificar-se de que:
 2) Executar:
 
     ```bash
-    docker compose up
+    docker compose up -d
     ```
 
 
@@ -96,8 +96,7 @@ Caso se deseje iniciar uma instância do MongoDB separadamente, ela pode ser ini
 2) Executar:
 
     ```bash
-    docker run -d -p 27017:27017 \
-        --name mongo-logst --hostname mongo-logst \
+    docker run -d --network host --name mongo-logst  \
         -v ./../hom/mongo.init.js:/docker-entrypoint-initdb.d/mongo.init.js \
         -e MONGO_INITDB_ROOT_USERNAME=root \
         -e MONGO_INITDB_ROOT_PASSWORD=1234 \
