@@ -23,6 +23,7 @@ services:
     image: ghcr.io/larc-logs-transparentes/bu-service:latest
     container_name: demo-logst-bu-service
     hostname: bu-service
+    pull_policy: always
     depends_on:
       - mongo-logst
     networks:
@@ -40,6 +41,7 @@ services:
     image: ghcr.io/larc-logs-transparentes/back-pub:latest
     container_name: demo-logst-back-pub
     hostname: back-pub
+    pull_policy: always
     depends_on:
       - bu-service
       - tlmanager
@@ -56,6 +58,7 @@ services:
     image: ghcr.io/larc-logs-transparentes/frontend:latest
     container_name: demo-logst-frontend
     hostname: frontend
+    pull_policy: always
     depends_on:
       - back-pub
     networks:
@@ -68,6 +71,7 @@ services:
     image: ghcr.io/larc-logs-transparentes/tlmanager:latest
     container_name: demo-tlmanager
     hostname: tlmanager
+    pull_policy: always
     depends_on:
       - mongo-logst
     networks:
