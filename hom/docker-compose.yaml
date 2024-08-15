@@ -63,8 +63,6 @@ services:
       - back-pub
     networks:
       - hom-logst
-    volumes:
-      - ./frontend.config.json:/app/src/config.json
     ports:
       - 3000:80
 

@@ -36,8 +36,6 @@ services:
     depends_on:
       - back-pub
     network_mode: "host"
-    volumes:
-      - ./frontend.config.json:/app/src/config.json
 
 
   tlmanager:
