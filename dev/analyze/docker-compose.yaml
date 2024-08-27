@@ -1,0 +1,94 @@
+version: "3.0"
+
+networks:
+  dev-logst:
+
+services:
+
+  nginx:
+    image: nginx:latest
+    container_name: dev-nginx
+    hostname: nginx
+    depends_on:
+      - back-pub
+    networks:
+      - dev-logst
+    ports:
+      - 8080:8080
+      - 9090:9090
+      - 8000:8000
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+
+  mongo-logst:
+    image: mongo:6.0.14
+    container_name: dev-mongo-logst
+    hostname: mongo-logst
+    networks:
+      - dev-logst
+    volumes:
+      - ../../hom/mongo.init.js:/docker-entrypoint-initdb.d/mongo.init.js
+    ports:
+        - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+  
+  bu-service:
+    image: larc-et/bu-service:local
+    container_name: dev-logst-bu-service
+    hostname: bu-service
+    depends_on:
+      - mongo-logst
+      - tlmanager
+    networks:
+      - dev-logst
+#    ports:
+#      - 9090:9090
+    environment:
+      MONGO_URL: "mongodb://buuser:bupassword@mongo-logst/bu_service"
+      TL_MANAGER_URL: "http://nginx:8000"
+      TREE_NAME_PREFIX: "eleicao_"
+      TREE_DEFAULT_COMMITMENT_SIZE: 8
+
+    
+  back-pub:
+    image: larc-et/back-pub:local
+    container_name: dev-logst-back-pub
+    hostname: back-pub
+    depends_on:
+      - mongo-logst
+      - tlmanager
+    networks:
+      - dev-logst
+    volumes:
+      - ./backend.public.config.json:/app/src/config.json
+#    ports:
+#      - 8080:8080
+
+
+  frontend:
+    image: larc-et/frontend:local
+    container_name: dev-logst-frontend
+    hostname: frontend
+    depends_on:
+      - back-pub
+    networks:
+      - dev-logst
+    ports:
+      - 3000:80
+
+
+  tlmanager:
+    image: larc-et/tlmanager:local
+    container_name: dev-tlmanager
+    hostname: tlmanager
+    depends_on:
+      - mongo-logst
+    networks:
+      - dev-logst
+#    ports:
+#      - 8000:8000
+    environment:
+      URL: "mongodb://tluser:tlpassword@mongo-logst:27017/tlmanager"
+

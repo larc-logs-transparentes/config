@@ -1,0 +1,17 @@
+{
+    "cors_origin_urls": [
+        "http://*"
+    ],
+    "tlmanager_config": {
+        "hostname": "http://nginx",
+        "port": 8000
+    },
+    "mongodb_config": {
+        "hostname": "mongodb://buuser:bupassword@mongo-logst",
+        "port": 27017,
+        "database": "bu_service"
+    },
+    "application_config": {
+        "port": 8080
+    }
+}
