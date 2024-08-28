@@ -14,21 +14,72 @@ class Node:
         self.serviceTimeMs:int = 0
         self.totalServicetime:int = 0
         self.nginxTimeMs:int = 0
+        self.totalNginxTimeMs:int = 0
         self.serviceName:str = 'ROOT'
         self.url:str = ''
         self.baseUrl:str = ''
         self.bytes:int = 0
         self.httpStatus:int = 0
+        self.overlapped:bool = False
+        self.lastOverlapDurationMs:int = 0
+        self.ancientOverlappingNode = None
 
     def appendNode(self, childNode) -> bool:
         result = False
 
+        # Check if the given node (childNode) is really a child to this node
         if self.startTime < childNode.startTime and self.endTime > childNode.endTime:
+
+            # If first child
+            if len(self._stack) == 0:
+                self.nginxTimeMs -= childNode.nginxTimeMs
+                self.serviceTimeMs -= childNode.nginxTimeMs
+                self.ancientOverlappingNode = None
+
+            # Else, check for overlapped child (time intersection)
+            elif self._stack[0].startTime < childNode.endTime:
+                #print(f'DEBUG {self._stack[0].startTime} < {childNode.endTime} : TRUE')
+
+                # If not previously overlapped
+                if not self.ancientOverlappingNode:
+                    # Reconstruct nginx and service time
+                    self.nginxTimeMs += self._stack[0].nginxTimeMs
+                    self.serviceTimeMs += self._stack[0].nginxTimeMs
+                    # Calculate new service time
+                    duration:timedelta = self._stack[0].endTime - childNode.startTime
+                    self.lastOverlapDurationMs = int(duration.total_seconds() * 1000)
+                    #print(f'DEBUG duration: {self.lastOverlapDurationMs}')
+                    self.nginxTimeMs -= self.lastOverlapDurationMs
+                    self.serviceTimeMs -= self.lastOverlapDurationMs
+                    self.ancientOverlappingNode = self._stack[0]
+                    #Flag overlapping nodes
+                    childNode.overlapped = True
+                    self._stack[0].overlapped = True
+                
+                # Currently under overlap situation
+                else:
+                    # Reconstruct nginx and service time
+                    self.nginxTimeMs += self.lastOverlapDurationMs
+                    self.serviceTimeMs += self.lastOverlapDurationMs
+                    # Calculate new service time
+                    duration:timedelta = self.ancientOverlappingNode.endTime - childNode.startTime
+                    self.lastOverlapDurationMs = int(duration.total_seconds() * 1000)
+                    #print(f'DEBUG NEW duration: {self.lastOverlapDurationMs}')
+                    self.nginxTimeMs -= self.lastOverlapDurationMs
+                    self.serviceTimeMs -= self.lastOverlapDurationMs
+                    #Flag overlapping nodes
+                    childNode.overlapped = True
+
+            else:
+                self.nginxTimeMs -= childNode.nginxTimeMs
+                self.serviceTimeMs -= childNode.nginxTimeMs
+                self.ancientOverlappingNode = None
+
+            # Add childNode to stack
             self._stack.insert(0, childNode)
             childNode.parent = self
-            self.nginxTimeMs -= childNode.nginxTimeMs
-            self.serviceTimeMs -= childNode.nginxTimeMs
             result = True
+
 
         return result
     
@@ -46,7 +97,7 @@ class Node:
 
         nginxTimeSecs:float = float(array[len(array)-3])
         self.totalServicetime = self.serviceTimeMs = int(float(array[len(array)-2]) * 1000)
-        self.nginxTimeMs = int(nginxTimeSecs * 1000)
+        self.totalNginxTimeMs = self.nginxTimeMs = int(nginxTimeSecs * 1000)
 
         self.endTime = datetime.fromisoformat(array[0])
         timeDelta = timedelta(seconds=nginxTimeSecs)
@@ -54,15 +105,22 @@ class Node:
 
     def info(self) -> str:
         totalServiceTimeStr:str = ''
+        totalNginxTimeStr:str = ''
+        overlappedStr:str=''
+
         if len(self._stack) > 0:
-            totalServiceTimeStr:str = f'({self.totalServicetime})'
-        return f'Info: {self.startTime} - {self.endTime} {self.serviceName} serviceTime: {self.serviceTimeMs}{totalServiceTimeStr} nginxTime: {self.nginxTimeMs} - {self.url}'
+            totalServiceTimeStr = f'({self.totalServicetime})'
+            totalNginxTimeStr = f'({self.totalNginxTimeMs})'
+
+        if self.overlapped: overlappedStr = '(OvrLpd)'
+
+        return f'Info: {self.startTime} - {self.endTime} {self.serviceName} serviceTime: {self.serviceTimeMs}{totalServiceTimeStr}{overlappedStr} nginxTime: {self.nginxTimeMs}{totalNginxTimeStr} {self.url}'
 
     def printTreeInfo(self, header:str, file):
-        file.write(f'{header}{self.info()} - children: {len(self._stack)}\n')
+        file.write(f'{header}-{self.info()} - children: {len(self._stack)}\n')
 
         for child in self._stack:
-            child.printTreeInfo(header+ ' |-', file)
+            child.printTreeInfo(header+ '  |', file)
 
 
 class StatsManager:
