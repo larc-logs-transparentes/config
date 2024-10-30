@@ -25,6 +25,7 @@ services:
     hostname: bu-service
     depends_on:
       - mongo-logst
+      - tlmanager
     networks:
       - dev-logst
     ports:
@@ -41,9 +42,8 @@ services:
     container_name: dev-logst-back-pub
     hostname: back-pub
     depends_on:
-      - bu-service
-      - tlmanager
       - mongo-logst
+      - tlmanager
     networks:
       - dev-logst
     volumes:

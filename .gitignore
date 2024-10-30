@@ -2,3 +2,4 @@ node_modules
 __pycache__
 venv
 /dev/build
+profile-results

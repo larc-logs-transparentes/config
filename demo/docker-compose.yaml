@@ -26,6 +26,7 @@ services:
     pull_policy: always
     depends_on:
       - mongo-logst
+      - tlmanager
     networks:
       - demo-logst
     ports:
@@ -43,9 +44,8 @@ services:
     hostname: back-pub
     pull_policy: always
     depends_on:
-      - bu-service
-      - tlmanager
       - mongo-logst
+      - tlmanager
     networks:
       - demo-logst
     volumes:
