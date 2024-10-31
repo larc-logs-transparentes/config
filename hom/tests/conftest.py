@@ -35,7 +35,7 @@ def bu_create(bu_name:str, folder:str):
 
 def bu_create_all():
   folder:str = 'bus'
-  bu_array = glob.glob("*-bu.dat", root_dir=folder)
+  bu_array = glob.glob("*.dat", root_dir=folder)
 
   for bu in bu_array:
     bu_create(bu, folder)
