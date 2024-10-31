@@ -19,7 +19,7 @@ def test_data_proof(my_setup):
 '''
 
 def test_inclusion_proof(my_setup):
-    url = "http://127.0.0.1:8080/tree/inclusion-proof?tree_name=eleicao_619=&index=1"
+    url = "http://127.0.0.1:8080/tree/inclusion-proof?tree_name=eleicao_619=&index=0"
 
     payload = {}
     headers = {}
