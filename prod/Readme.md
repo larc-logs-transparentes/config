@@ -100,7 +100,7 @@ Caso se deseje iniciar uma instância do MongoDB separadamente, ela pode ser ini
         -v ./../hom/mongo.init.js:/docker-entrypoint-initdb.d/mongo.init.js \
         -e MONGO_INITDB_ROOT_USERNAME=root \
         -e MONGO_INITDB_ROOT_PASSWORD=1234 \
-        mongo:6.0.14
+        mongo:4.4.6
     ```
 
 ## Execução Simplificada

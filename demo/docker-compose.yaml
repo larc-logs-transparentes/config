@@ -6,7 +6,7 @@ networks:
 services:
 
   mongo-logst:
-    image: mongo:6.0.14
+    image: mongo:4.4.6
     container_name: demo-mongo-logst
     hostname: mongo-logst
     networks:

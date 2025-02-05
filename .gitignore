@@ -3,3 +3,5 @@ __pycache__
 venv
 /dev/build
 profile-results
+/prod/.env
+/prod/backend.public.config.json
