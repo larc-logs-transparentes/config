@@ -35,7 +35,7 @@ services:
       MONGO_URL: "mongodb://buuser:bupassword@mongo-logst/bu_service"
       TL_MANAGER_URL: "http://tlmanager:8000"
       TREE_NAME_PREFIX: "eleicao_"
-      TREE_DEFAULT_COMMITMENT_SIZE: 8
+      TREE_DEFAULT_COMMITMENT_SIZE: 2048
 
     
   back-pub:
