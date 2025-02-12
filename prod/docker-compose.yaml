@@ -14,7 +14,7 @@ services:
       MONGO_URL: "${BU_SERVICE_MONGO_URL}"
       TL_MANAGER_URL: "${TL_MANAGER_URL}"
       TREE_NAME_PREFIX: "eleicao_"
-      TREE_DEFAULT_COMMITMENT_SIZE: 8
+      TREE_DEFAULT_COMMITMENT_SIZE: 2048
 
     
   back-pub:
