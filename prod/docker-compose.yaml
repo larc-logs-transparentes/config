@@ -37,6 +37,8 @@ services:
     depends_on:
       - back-pub
     network_mode: "host"
+    environment:
+      REACT_APP_API_URL: "${BACK_PUB_URL}"
 
 
   tlmanager:
