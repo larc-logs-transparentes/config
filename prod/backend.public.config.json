@@ -1,6 +1,9 @@
 {
     "cors_origin_urls": [
+        "http://localhost",
         "http://localhost:80",
+        "http://localhost:3000",
+        "http://200.144.245.31:80",
         "http://172.20.11.11:80",
         "http://172.20.11.14:80", 
         "http://127.0.0.1:80",
