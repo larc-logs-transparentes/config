@@ -60,6 +60,8 @@ services:
       - back-pub
     networks:
       - dev-logst
+    # volumes:
+    #   - ./config.json:/usr/share/nginx/html/config.json
     ports:
       - 3000:80
 
