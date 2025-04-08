@@ -50,8 +50,7 @@ services:
       - ../hom/backend.public.config.json:/app/src/config.json
     ports:
       - 8080:8080
-
-
+      
   frontend:
     image: larc-et/frontend:local
     container_name: dev-logst-frontend
@@ -60,9 +59,11 @@ services:
       - back-pub
     networks:
       - dev-logst
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
     ports:
-      - 3000:80
-
+      - 80:80
+ 
 
   tlmanager:
     image: larc-et/tlmanager:local
