@@ -37,9 +37,8 @@ services:
     depends_on:
       - back-pub
     network_mode: "host"
-    environment:
-      REACT_APP_API_URL: "${BACK_PUB_URL}"
-
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
 
   tlmanager:
     image: ghcr.io/larc-logs-transparentes/tlmanager:latest
@@ -52,3 +51,5 @@ services:
       - ${TL_MANAGER_PRIV_KEY_PATH}:/app/keys/private_key.pem
     environment:
       URL: "${TL_MANAGER_MONGO_URL}"
+
+
