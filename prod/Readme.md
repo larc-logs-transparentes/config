@@ -111,3 +111,23 @@ Caso se deseje realizar uma execução simplificada, utilizando o MongoDB criado
 cp example/.env .
 cp example/backend.public.config.json .
 ```
+
+## Proxy Reverso NGINX
+
+O NGINX funciona como reverse proxy, redirecionando requisições para o backend na porta 8080:
+
+- **Porta**: 80
+- **Limite de upload**: 100M
+- **Rotas principais**:
+  - `/` - Arquivos estáticos da aplicação
+  - `/bu` - Proxy para endpoints dos bus
+  - `/tree` - Proxy para endpoint das árvores
+  - `/ws` - Suporte a WebSockets
+
+Para inserir novos proxys:
+
+1) Acesse a pasta ``config/prod/nginx``
+
+2) Edite o arquivo ``conf.d`` seguindo uma estrutura similar aos já existentes e salve.
+
+3) Para a alteração ser funcional é preciso finalizar os containers e executá-los novamente.
